@@ -1,3 +1,7 @@
+/tmp/
 /.idea/
 /vendor/*
 !/vendor/wfm/
+*.jpg
+*.jpeg
+*.png

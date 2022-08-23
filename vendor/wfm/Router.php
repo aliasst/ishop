@@ -41,6 +41,7 @@ class Router
 
 
             if (class_exists($controller)) {
+                /** @var Controller $controllerObject */
                 $controllerObject = new $controller(self::$route);
 
                 $controllerObject->getModel();
@@ -48,6 +49,7 @@ class Router
                 $action = self::$route['action'] . 'Action';
                 if(method_exists($controllerObject, $action)){
                     $controllerObject->$action();
+                    $controllerObject->getView();
                 } else {
                     throw new \Exception("Метод {$controller}::{$action} не найден", 404);
                 }

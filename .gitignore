@@ -2,6 +2,7 @@
 /.idea/
 /vendor/*
 !/vendor/wfm/
+/public/assets/
 *.jpg
 *.jpeg
 *.png

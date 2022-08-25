@@ -8,6 +8,5 @@ use wfm\View;
 <?php
 echo $this->content;
 ?>
-
 <?php $this->getPart('parts/footer');?>
 

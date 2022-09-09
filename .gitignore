@@ -3,6 +3,7 @@
 /vendor/*
 !/vendor/wfm/
 /public/assets/
+/public/uploads/
 *.jpg
 *.jpeg
 *.png

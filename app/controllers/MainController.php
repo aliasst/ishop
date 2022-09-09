@@ -14,13 +14,13 @@ class MainController extends AppController
 
         $slides = R::findAll('slider');
 
-        $names = $this->model->get_names();
+        $products = $this->model->get_hits(1, 3);
 
 
 
         $this->setMeta("Главная", 'Описание для главной страницы', 'Главная, магазин');
 
 
-        $this->set(compact('slides'));
+        $this->set(compact('slides', 'products'));
     }
 }

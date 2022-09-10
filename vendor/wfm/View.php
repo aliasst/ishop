@@ -62,7 +62,7 @@ class View
 
     public function getDbLogs()
     {
-        if(DEBUG){
+        if(DEBUG AND R::testConnection()){
             $logs = R::getDatabaseAdapter()
                 ->getDatabase()
                 ->getLogger();

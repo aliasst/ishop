@@ -32,6 +32,7 @@ class Language
     public static function getLanguage($languages)
     {
         $lang = App::$app->getProperty('lang');
+
         if($lang && array_key_exists($lang,$languages )){
             $key =  $lang;
         } elseif(!$lang) {

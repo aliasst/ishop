@@ -18,6 +18,11 @@ class AppController extends Controller
             //debug(App::$app->getProperty('languages'));
             //debug(App::$app->getProperty('language'));
             //echo App::$app->getProperty('language')['code'];
+            $lang = App::$app->getProperty('language')['code'];
+            \wfm\Language::load($lang, $this->route);
+            //debug(\wfm\Language::$lang_data);
 
+
+            //die();
         }
 }

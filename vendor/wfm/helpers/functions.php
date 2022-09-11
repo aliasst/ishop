@@ -25,3 +25,38 @@ function redirect($http = false) {
 function base_url() {
     return PATH . '/' . (\wfm\App::$app->getProperty('lang') ? \wfm\App::$app->getProperty('lang') . '/' : '');
 }
+//9 урок 7 - 10 минута
+
+/**
+ * @param string $key Key of Get array
+ * @param string $type Values 'i', 'f', 's'
+ * @return float|int|string
+ */
+function get($key, $type = 'i') {
+    $param = $key;
+    $$param = $_GET[$param] ?? '';
+    if($type == 'i'){
+        return (int)$$param;
+    } elseif($type == 'f') {
+        return (float)$$param;
+    } else {
+        return trim($$param);
+    }
+}
+
+/**
+ * @param string $key Key of Post array
+ * @param string $type Values 'i', 'f', 's'
+ * @return float|int|string
+ */
+function post($key, $type = 's') {
+    $param = $key;
+    $$param = $_POST[$param] ?? '';
+    if($type == 'i'){
+        return (int)$$param;
+    } elseif($type == 'f') {
+        return (float)$$param;
+    } else {
+        return trim($$param);
+    }
+}

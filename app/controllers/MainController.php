@@ -15,11 +15,7 @@ class MainController extends AppController
 {
     public function indexAction () {
 
-        $test = "Тест 1";
-        $cache = Cache::getInstance();
-        $cache->set('test', $test);
 
-        debug($cache->get('test'), 1);
 
         $lang = App::$app->getProperty('language');
         $slides = R::findAll('slider');

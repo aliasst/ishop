@@ -22,10 +22,17 @@ class CartController extends AppController
         }
         $this->model->add_to_cart($product, $qty);
         if($this->isAjax()) {
-            echo 1;
+            $this->loadView('cart_modal');
         }
+
         redirect();
         return true;
+    }
+
+    public function showAction ()
+    {
+        $this->loadView('cart_modal');
+
     }
 
 

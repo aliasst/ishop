@@ -41,16 +41,19 @@ class Menu
     }
 
     protected function run(){
+
         $cache = Cache::getInstance();
         $this->menuHtml = $cache->get("{$this->cacheKey}_{$this->language['code']}");
 
         if(!$this->menuHtml){
-            $this->data = R::getAssoc("SELECT c.*, cd.* FROM category c 
+            /*$this->data = R::getAssoc("SELECT c.*, cd.* FROM category c
                         JOIN category_description cd
                         ON c.id = cd.category_id
-                        WHERE cd.language_id = ?", [$this->language['id']]);
+                        WHERE cd.language_id = ?", [$this->language['id']]);*/
+            $this->data = App::$app->getProperty("categories_{$this->language['code']}");
             $this->tree = $this->getTree();
             $this->menuHtml = $this->getMenuHtml($this->tree);
+
             if($this->cache){
                 $cache->set("{$this->cacheKey}_{$this->language['code']}", $this->menuHtml, $this->cache);
             }

@@ -5,7 +5,7 @@
                 <a href="product/<?= $product['slug']; ?>"><img src="<?= PATH . $product['img']?>" alt=""></a>
             </div>
             <div class="product-details">
-                <h4><a href="product.html"><?= $product['title']; ?></a></h4>
+                <h4><a href="product/<?= $product['slug']; ?>"><?= $product['title']; ?></a></h4>
                 <p><?= $product['exerpt']; ?></p>
                 <div class="product-bottom-details d-flex justify-content-between">
                     <div class="product-price">
@@ -15,7 +15,7 @@
                         <?= $product['price']; ?></div>
                     <div class="product-links">
                         <a class="add-to-cart" href="cart/add?id=<?= $product['id']; ?>" data-id="<?= $product['id']; ?>"><?= get_cart_icon($product['id']); ?></i></a>
-                        <a href="#"><i class="far fa-heart"></i></a>
+                        <a class="add-to-wishlist" href="wishlist/add?id=<?= $product['id']; ?>" data-id="<?= $product['id']; ?>"><i class="far fa-heart"></i></a>
                     </div>
                 </div>
             </div>

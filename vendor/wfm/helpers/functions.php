@@ -1,4 +1,17 @@
 <?php
+
+function logger($data)
+{
+    file_put_contents(
+        LOGS . '/log.log',
+        print_r($data, true) . PHP_EOL,
+        FILE_APPEND
+    );
+}
+
+
+
+
 function debug($data, $die = false)
 {
     echo '<pre>' . print_r($data, 1) . '</pre>';

@@ -2,6 +2,7 @@
 
 namespace wfm;
 
+use RedBeanPHP\R;
 use Valitron\Validator;
 
 abstract class Model
@@ -18,8 +19,8 @@ abstract class Model
     public function load($data)
     {
         foreach($this->attributes as $name => $value) {
-            if(isset($data['name'])) {
-                $this->attributes['name'] = $data['name'];
+            if(isset($data[$name])) {
+                $this->attributes[$name] = $data[$name];
             }
         }
     }
@@ -63,6 +64,17 @@ abstract class Model
             $labels[$k] = ___($v);
         }
         return $labels;
+    }
+
+    public function save($table)
+    {
+        $tbl = R::dispense($table);
+        foreach($this->attributes as $name => $value){
+            if($value != ''){
+                $tbl->$name = $value;
+            }
+        }
+        return R::store($tbl);
     }
 
 }

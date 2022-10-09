@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use RedBeanPHP\R;
 use Valitron\Validator;
 
 class User extends AppModel
@@ -10,7 +11,7 @@ class User extends AppModel
         'email' => '',
         'password' => '',
         'name' => '',
-        'adress' => '',
+        'address' => '',
     ];
 
     public array $rules = [
@@ -33,7 +34,15 @@ class User extends AppModel
         return isset($_SESSION['user']);
     }
 
-
+    public function checkUnique($text_error = '')
+    {
+        $user = R::findOne('user', 'email = ?', [$this->attributes['email']]);
+        if($user){
+            $this->errors['unique'][] = $text_error ?: ___('user_signup_error_email_unique');
+            return false;
+        }
+        return true;
+    }
 
 
 }

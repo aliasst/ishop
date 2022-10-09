@@ -29,7 +29,7 @@ abstract class Model
     {
 
         Validator::langDir(APP . '/languages/validator/lang');
-        Validator::lang('ru');
+        Validator::lang(App::$app->getProperty('language')['code']);
 
         $validator = new Validator($data);
         $validator->rules($this->rules);

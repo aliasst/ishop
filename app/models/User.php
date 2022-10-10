@@ -20,6 +20,7 @@ class User extends AppModel
         'lengthMin' => [
             ['password', 6]
         ],
+        'optional' => ['email', 'password']
     ];
 
     public array $labels = [

@@ -10,13 +10,14 @@ use wfm\Pagination;
 /** @property User $model */
 class UserController extends AppController
 {
-    public function signupAction () {
-        if(User::checkAuth()){
+    public function signupAction()
+    {
+        if (User::checkAuth()) {
             redirect(base_url());
         }
 
 
-        if(!empty($_POST)){
+        if (!empty($_POST)) {
 
 
             $data = $_POST;
@@ -24,13 +25,12 @@ class UserController extends AppController
             $this->model->load($data);
 
 
-            if(!$this->model->validate($data) || !$this->model->checkUnique()){
+            if (!$this->model->validate($data) || !$this->model->checkUnique()) {
                 $this->model->getErrors();
                 $_SESSION['form_data'] = $data;
             } else {
                 $this->model->attributes['password'] = password_hash($this->model->attributes['password'], PASSWORD_DEFAULT);
-                if($this->model->save('user'))
-                {
+                if ($this->model->save('user')) {
                     $_SESSION['success'] = ___('user_signup_success_register');
                 } else {
                     $_SESSION['errors'] = ___('user_signup_error_register');
@@ -38,24 +38,23 @@ class UserController extends AppController
                 }
 
 
-
             }
             redirect();
         }
 
 
-        $this->setMeta(___('tpl_signup'), '','' );
+        $this->setMeta(___('tpl_signup'), '', '');
     }
 
 
     public function loginAction()
     {
-        if(User::checkAuth()){
+        if (User::checkAuth()) {
             redirect(base_url());
         }
 
-        if(!empty($_POST)){
-            if($this->model->login()){
+        if (!empty($_POST)) {
+            if ($this->model->login()) {
                 $_SESSION['success'] = ___('user_login_success_login');
                 redirect(base_url());
             } else {
@@ -64,28 +63,29 @@ class UserController extends AppController
             }
         }
 
-        $this->setMeta(___('tpl_login'), '','' );
+        $this->setMeta(___('tpl_login'), '', '');
 
     }
 
-    public function logoutAction() {
-        if(User::checkAuth()){
-           unset($_SESSION['user']);
+    public function logoutAction()
+    {
+        if (User::checkAuth()) {
+            unset($_SESSION['user']);
         }
         redirect(base_url() . 'user/login');
     }
 
     public function cabinetAction()
     {
-        if(!User::checkAuth()){
+        if (!User::checkAuth()) {
             redirect(base_url() . 'user/login');
         }
-        $this->setMeta(___('tpl_cabinet'), '','' );
+        $this->setMeta(___('tpl_cabinet'), '', '');
     }
 
     public function ordersAction()
     {
-        if(!User::checkAuth()){
+        if (!User::checkAuth()) {
             redirect(base_url() . 'user/login');
         }
         $page = get('page');
@@ -94,30 +94,50 @@ class UserController extends AppController
 
         $total = $this->model->get_count_orders($_SESSION['user']['id']);
 
-       $pagination = new Pagination($page, $perpage,$total );
-       $start = $pagination->getStart();
-       $orders = $this->model->get_user_orders($start,  $perpage, $_SESSION['user']['id']);
+        $pagination = new Pagination($page, $perpage, $total);
+        $start = $pagination->getStart();
+        $orders = $this->model->get_user_orders($start, $perpage, $_SESSION['user']['id']);
 
-       $this->setMeta(___('user_orders_title'), '','' );
-       $this->set(compact('pagination', 'total', 'orders'));
+        $this->setMeta(___('user_orders_title'), '', '');
+        $this->set(compact('pagination', 'total', 'orders'));
     }
 
     public function orderAction()
     {
-        if(!User::checkAuth()){
+        if (!User::checkAuth()) {
             redirect(base_url() . 'user/login');
         }
 
         $id = get('id');
 
         $order = $this->model->get_user_order($id);
-        if(!$order){
+        if (!$order) {
             $this->error_404();
         }
 
-        $this->setMeta(___('user_order_title'), '','' );
+        $this->setMeta(___('user_order_title'), '', '');
         $this->set(compact('order',));
 
+    }
+
+    public function filesAction()
+    {
+        if (!User::checkAuth()) {
+            redirect(base_url() . 'user/login');
+        }
+        $lang = App::$app->getProperty('language');
+        $page = get('page');
+        $perpage = App::$app->getProperty('pagination');
+
+        $total = $this->model->get_count_files($_SESSION['user']['id']);
+        echo $total;
+
+        $pagination = new Pagination($page, $perpage, $total);
+        $start = $pagination->getStart();
+        $files = $this->model->get_user_files($start, $perpage, $lang, $_SESSION['user']['id']);
+
+        $this->setMeta(___('user_files_title'), '', '');
+        $this->set(compact('pagination', 'total', 'files'));
     }
 
 }

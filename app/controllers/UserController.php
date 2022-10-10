@@ -130,7 +130,6 @@ class UserController extends AppController
         $perpage = App::$app->getProperty('pagination');
 
         $total = $this->model->get_count_files($_SESSION['user']['id']);
-        echo $total;
 
         $pagination = new Pagination($page, $perpage, $total);
         $start = $pagination->getStart();
@@ -138,6 +137,37 @@ class UserController extends AppController
 
         $this->setMeta(___('user_files_title'), '', '');
         $this->set(compact('pagination', 'total', 'files'));
+    }
+
+    public function downloadAction ()
+    {
+        if (!User::checkAuth()) {
+            redirect(base_url() . 'user/login');
+        }
+
+        $id = get('id');
+        $lang = App::$app->getProperty('language');
+
+        $file = $this->model->get_user_file($id, $lang, $_SESSION['user']['id']);
+
+        if($file) {
+            $path = WWW . "/downloads/{$file['filename']}";
+            if(file_exists($path)){
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="' . basename($file['original_name']) . '"');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($path));
+                readfile($path);
+                exit();
+            } else {
+                $_SESSION['errors'] = ___('user_download_error');
+            }
+
+        }
+
+        redirect();
     }
 
 }

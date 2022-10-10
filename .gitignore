@@ -4,6 +4,7 @@
 !/vendor/wfm/
 /public/assets/
 /public/uploads/
+/public/downloads/
 *.jpg
 *.jpeg
 *.png

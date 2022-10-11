@@ -26,6 +26,7 @@ class View
         }
         $prefix = str_replace('\\', '/', $this->route['admin_prefix']);
 
+
         $view_file = APP . "/views/{$prefix}{$this->route['controller']}/{$this->view}.php";
 
         if(is_file($view_file)) {

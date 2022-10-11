@@ -50,7 +50,7 @@ class Router
 
                 $controllerObject->getModel();
 
-                $action = self::$route['action'] . 'Action';
+                $action = self::lowerCamelCase(self::$route['action'] . 'Action');
                 if(method_exists($controllerObject, $action)){
                     $controllerObject->$action();
                     $controllerObject->getView();
@@ -88,7 +88,7 @@ class Router
                     $route['admin_prefix'] .= '\\';
                 }
                 $route['controller'] = self::upperCamelCase($route['controller']);
-                $route['action'] = self::lowerCamelCase($route['action']);
+
 
                 self::$route = $route;
                 return true;

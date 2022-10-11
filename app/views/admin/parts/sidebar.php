@@ -38,8 +38,14 @@
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="<?= ADMIN ?>" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Главная</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= ADMIN ?>/category" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Категории</p>
                     </a>
                 </li>
             </ul>

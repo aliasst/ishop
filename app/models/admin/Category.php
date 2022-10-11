@@ -57,4 +57,10 @@ class Category extends AppModel
         }
 
 
+        public function get_category($id): array
+        {
+            return R::getAssoc("SELECT cd.language_id, cd.*, c.* FROM category_description cd JOIN category c ON c.id = cd.category_id WHERE cd.category_id = ?", [$id]);
+        }
+
+
 }

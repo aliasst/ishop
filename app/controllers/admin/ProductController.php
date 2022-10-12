@@ -28,9 +28,13 @@ class ProductController extends AppController
 
     public function addAction() {
 
-        if(!$_POST){
-
+        if(!empty($_POST)){
+           if($this->model->product_validate()){
+                $_SESSION['success'] = "Товар добавлен";
+            }
+            redirect();
         }
+
 
         $title = 'Добавление товара';
         $this->setMeta('Добавление товара');
@@ -43,5 +47,7 @@ class ProductController extends AppController
         echo json_encode($downloads);
         die;
     }
+
+
 
 }

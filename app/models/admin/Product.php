@@ -26,4 +26,37 @@ class Product extends AppModel
         }
         return $data;
     }
+
+
+    public function product_validate(): bool
+    {
+        $errors = '';
+        if(!is_numeric($_POST['price'])){
+            $errors .= 'Цена должна быть цифровым значением<br>';
+        }
+        if(!is_numeric($_POST['old_price'])){
+            $errors .= 'Старая цена должна быть цифровым значением<br>';
+        }
+
+        foreach($_POST['product_description'] as $lang_id => $item){
+            $item['title'] = trim($item['title']);
+            $item['exerpt'] = trim($item['exerpt']);
+            if(empty($item['title'])){
+                $errors .= "Не заполнено наименование во вкладке {$lang_id}<br>";
+            }
+            if(empty($item['exerpt'])){
+                $errors .= "Не заполнено краткое описание во вкладке {$lang_id}<br>";
+            }
+        }
+
+        if($errors){
+            $_SESSION['errors'] = $errors;
+            $_SESSION['form_data'] = $_POST;
+            return false;
+        }
+        return true;
+    }
+
+
+
 }

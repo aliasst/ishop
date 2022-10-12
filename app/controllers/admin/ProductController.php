@@ -26,4 +26,22 @@ class ProductController extends AppController
         $this->set(compact('title', 'products', 'total', 'pagination'));
     }
 
+    public function addAction() {
+
+        if(!$_POST){
+
+        }
+
+        $title = 'Добавление товара';
+        $this->setMeta('Добавление товара');
+        $this->set(compact('title'));
+    }
+
+    public function getDownloadAction() {
+        $q = get('q', 's');
+        $downloads = $this->model->get_downloads($q);
+        echo json_encode($downloads);
+        die;
+    }
+
 }

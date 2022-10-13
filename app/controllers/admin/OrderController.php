@@ -27,4 +27,27 @@ class OrderController extends AppController
         $this->set(compact('title', 'pagination', 'orders', 'total'));
     }
 
+
+    public function editAction() {
+        $id = get('id');
+        if(isset($_GET['status'])){
+            $status = get('status');
+            if($this->model->change_status($id, $status)){
+                $_SESSION['success'] = "Cтатус изменен";
+            } else {
+                $_SESSION['errors'] = "Ошибка! Cтатус не изменен";
+            }
+
+        }
+
+        $order = $this->model->get_order($id);
+        if(!$order){
+            throw new \Exception('Нет такого заказа', 404);
+        }
+        $title = "Заказ №{$id}";
+        $this->setMeta('Редактирование заказа');
+        $this->set(compact('title', 'order'));
+
+    }
+
 }

@@ -27,4 +27,32 @@ class DownloadController extends AppController
         $this->setMeta('Список файлов');
         $this->set(compact('title','downloads', 'pagination', 'total'));
     }
+
+    public function addAction() {
+        if(!empty($_POST)){
+            if($this->model->download_validate()){
+                if($data = $this->model->upload_file()){
+
+                    if($this->model->save_download($data)){
+                        $_SESSION['success'] = "Файл добавлен";
+                    } else {
+                        $_SESSION['errors'] = "Файл не добавлен";
+                    }
+
+                } else {
+                    $_SESSION['errors'] = "Ошибка перемещения файла";
+                }
+
+            }
+            redirect();
+        }
+
+        $title = 'Добавление файла';
+        $this->setMeta('Добавление файла');
+        $this->set(compact('title'));
+    }
+
+
+
+
 }

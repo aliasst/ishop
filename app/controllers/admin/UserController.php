@@ -3,6 +3,8 @@
 namespace app\controllers\admin;
 
 use app\models\admin\User;
+use RedBeanPHP\R;
+use wfm\Pagination;
 
 /** @property User $model */
 class UserController extends AppController
@@ -35,6 +37,21 @@ class UserController extends AppController
             unset($_SESSION['user']);
         }
         redirect(ADMIN . '/user/login-admin');
+    }
+
+
+    public function indexAction() {
+
+        $page = get('page');
+        $perpage = 20;
+        $total = R::count('user');
+        $pagination = new Pagination($page, $perpage, $total);
+        $start = $pagination->getStart();
+
+        $users = $this->model->get_users($start, $perpage);
+        $title = 'Список пользователей';
+        $this->setMeta('Список пользователей');
+        $this->set(compact('title', 'pagination', 'users', 'total'));
     }
 
 

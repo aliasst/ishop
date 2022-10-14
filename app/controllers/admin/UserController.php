@@ -55,4 +55,28 @@ class UserController extends AppController
     }
 
 
+    public function viewAction()
+    {
+        $id = get('id');
+        $user = $this->model->get_user($id);
+        if(!$user){
+            throw new \Exception('Такого пользователя не существует', 404);
+        }
+
+        $page = get('page');
+        $perpage = 10;
+        $total = $this->model->get_count_orders($id);
+        $pagination = new Pagination($page, $perpage, $total);
+        $start = $pagination->getStart();
+
+
+
+        $orders = $this->model->get_user_orders($start, $perpage, $id);
+        $title = "Профиль пользователя";
+        $this->setMeta("Профиль пользователя");
+        $this->set(compact('title', 'user', 'pagination', 'orders', 'total'));
+
+    }
+
+
 }

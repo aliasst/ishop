@@ -57,4 +57,30 @@ class PageController extends AppController
         }
 
 
+        public function editAction()
+        {
+            $id = get('id');
+            if(!empty($_POST)){
+                if($this->model->page_validate()){
+                    if($this->model->update_page($id)) {
+                        $_SESSION['success'] = "Страница обновлена";
+                    } else {
+                        $_SESSION['errors'] = "Ошибка! Страница не обновлена";
+                    }
+                }
+                redirect();
+            }
+
+            $page = $this->model->get_page($id);
+            if(!$page){
+                throw new \Exception('Нет такой страницы', 404);
+            }
+            $title = "Редактирование страницы";
+            $this->setMeta("Редактирование страницы");
+            $this->set(compact('title', 'page'));
+
+        }
+
+
+
 }

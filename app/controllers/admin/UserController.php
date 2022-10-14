@@ -118,7 +118,28 @@ class UserController extends AppController
     }
 
 
+    public function addAction() {
 
+        if(!empty($_POST)) {
+            $this->model->load();
+            if(!$this->model->validate($this->model->attributes) || !$this->model->checkUnique('Такой email уже занят')){
+                $this->model->getErrors();
+                $_SESSION['form_data'] = $_POST;
+            } else {
+                $this->model->attributes['password'] = password_hash($this->model->attributes['password'], PASSWORD_DEFAULT);
+                if($this->model->save('user')){
+                    $_SESSION['success'] = 'Пользователь добавлен';
+                } else {
+                    $_SESSION['errors'] = "Ошибка";
+                }
+            }
+            redirect();
+        }
+
+        $title = "Добавление пользователя";
+        $this->setMeta("Добавление пользователя");
+        $this->set(compact('title', ));
+    }
 
 
 }

@@ -79,4 +79,46 @@ class UserController extends AppController
     }
 
 
+    public function editAction ()
+    {
+        $id = get('id');
+        $user = $this->model->get_user($id);
+        if(!$user){
+            throw new \Exception('Такого пользователя не существует', 404);
+        }
+        if(!empty($_POST))
+        {
+            if(empty($_POST['password'])){
+                unset($_POST['password']);
+            }
+
+            $this->model->load($_POST);
+            if(empty($this->model->attributes['password'])){
+                unset($this->model->attributes['password']);
+            }
+            if(!$this->model->validate($this->model->attributes) || !$this->model->checkEmail($user)){
+                $this->model->getErrors();
+            } else {
+                if(!empty($this->model->attributes['password'])) {
+                    $this->model->attributes['password'] = password_hash($this->model->attributes['password'], PASSWORD_DEFAULT);
+                }
+                if($this->model->update('user', $id)){
+                    $_SESSION['success'] = 'Пользователь сохранен. Перезайдите если вы обновляли свои данные';
+                } else {
+                    $_SESSION['errors'] = "Ошибка";
+                }
+            }
+
+            redirect();
+        }
+
+        $title = "Редактирование пользователя";
+        $this->setMeta("Редактирование пользователя");
+        $this->set(compact('title', 'user'));
+    }
+
+
+
+
+
 }
